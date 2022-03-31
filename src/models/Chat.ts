@@ -3,9 +3,9 @@ import {Message} from "./Message";
 
 
 export type Chat = {
-  UUID: string
+  UUID?: string
   chatName: string
-  users: User[]
+  users?: User[]
   Messages: Message[]
 }
 

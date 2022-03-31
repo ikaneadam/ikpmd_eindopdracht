@@ -24,7 +24,8 @@ const formStyling = StyleSheet.create({
         marginLeft: 20,
     },
 
-    forgot_button: {
+    link: {
+        color: "#09d6d3",
         height: 30,
         marginBottom: 50,
     },
@@ -47,6 +48,10 @@ const formStyling = StyleSheet.create({
     Title: {
         fontSize: 30,
         marginBottom: 30,
+    },
+
+    error:{
+        color: 'red'
     }
 });
 

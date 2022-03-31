@@ -1,17 +1,26 @@
-import React, {Props, useState} from "react";
-import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import React, {useEffect, useState} from "react";
+import {Text, TextInput, TouchableOpacity, View} from "react-native";
 import {IStackScreenProps} from "../Library/StackScreenProps";
 import { StatusBar } from "expo-status-bar";
 import formStyling from "../Styling/formStyling";
 import UserService from "../Services/UserService"
 import {User} from "../models/User";
-import {Validation} from "../models/Validation";
+import isAccountValid from "../util/accountValidation";
+import { useIsFocused } from '@react-navigation/native'
+
 const Login: React.FunctionComponent<IStackScreenProps> = props =>{
     const userService: UserService = new UserService()
     const {navigation, route, name} = props
     const [username, setUsername] = useState("");
     const errorText = "Username doesn't exist"
-    let loginError = ""
+    const [loginError, setLoginError] = useState("");
+
+    const isFocused = useIsFocused()
+
+    useEffect(() => {
+        setLoginError("")
+        setUsername("")
+    } , [isFocused])
 
     function navigateToRegisterPage(){
         navigation.navigate("Register")
@@ -21,31 +30,18 @@ const Login: React.FunctionComponent<IStackScreenProps> = props =>{
         navigation.navigate("Chats")
     }
 
-    //can use library for this
-    function isLoginValid(): Validation{
-        if(username.length < 3){
-            return {isValid: false, message: "Your username must be 3 characters long"}
-        }
-        return {isValid: true, message: ""}
-    }
-
     function login(){
-        console.log(loginError)
-        if(!isLoginValid().isValid){
-            loginError = isLoginValid().message
+        if(!isAccountValid(username).isValid){
+            setLoginError(isAccountValid(username).message)
             return
         }
 
         const user: User = {"username": username}
         userService.loginRequest(user).then(()=>{
             navigateToChatsPage()
-            console.log(loginError)
         },).catch(()=>{
-            loginError = errorText
-            console.log(loginError)
+            setLoginError(errorText)
         })
-
-        console.log(loginError)
     }
 
 
@@ -59,15 +55,16 @@ const Login: React.FunctionComponent<IStackScreenProps> = props =>{
                     style={formStyling.TextInput}
                     placeholder="Naam..."
                     placeholderTextColor="#919191"
+                    value={username}
                     onChangeText={(username) => setUsername(username)}
                 />
             </View>
             <TouchableOpacity onPress={login} style={formStyling.Btn}>
                 <Text style={formStyling.BtnTxtColor}>Sign in</Text>
             </TouchableOpacity>
-            <Text style={formStyling.forgot_button}>{loginError}</Text>
+            <Text style={formStyling.error}>{loginError}</Text>
             <TouchableOpacity>
-                <Text onPress={navigateToRegisterPage} style={formStyling.forgot_button}>sign Up</Text>
+                <Text onPress={navigateToRegisterPage} style={formStyling.link}>sign Up</Text>
             </TouchableOpacity>
         </View>
     )

@@ -1,9 +1,9 @@
+import io from "socket.io-client";
 export class Service{
-    public ApiURL =  "ws://10.0.2.2:5000";
-    public ws = new WebSocket(this.ApiURL);
+    public ApiURL = "http://localhost:5000";
+    public socket = io(this.ApiURL);
+
     constructor() {
 
     }
-
-
 }

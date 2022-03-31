@@ -7,6 +7,10 @@ export default class UserService extends Service{
         super();
     }
     public loginRequest(user: User): Promise<boolean>{
-        return axios.post<boolean>(this.ApiURL, user).then()
+        return axios.post<boolean>(`${this.ApiURL}/api/user/login`, user).then()
+    }
+
+    public registerRequest(user: User): Promise<boolean>{
+        return axios.post<boolean>(`${this.ApiURL}/api/user/register`, user).then()
     }
 }
