@@ -14,7 +14,6 @@ const formStyling = StyleSheet.create({
         width: "70%",
         height: 45,
         marginBottom: 20,
-        alignItems: "center",
     },
 
     TextInput: {
@@ -22,6 +21,7 @@ const formStyling = StyleSheet.create({
         flex: 1,
         padding: 10,
         marginLeft: 20,
+        borderStyle: undefined
     },
 
     link: {

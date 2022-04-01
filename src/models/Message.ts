@@ -7,5 +7,5 @@ export type Message = {
   userNameReceiver: string
   isReceived: boolean
   TimeStamp: string
-  chat: Chat;
+  chat?: Chat;
 }
