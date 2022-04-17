@@ -6,6 +6,7 @@ const modalStyling = StyleSheet.create({
         marginLeft: 2,
         alignSelf: 'flex-start',
         maxWidth: '90%',
+        minWidth: '16%',
         borderRadius: 30,
         padding: 15
     },
@@ -15,13 +16,14 @@ const modalStyling = StyleSheet.create({
         backgroundColor: '#D9FDD3',
         alignSelf: 'flex-end',
         maxWidth: '90%',
+        minWidth: '16%',
         borderRadius: 30,
         padding: 15
     },
     date: {
         position: 'absolute',
         alignSelf: "flex-end",
-        paddingLeft: 20,
+        paddingLeft: 15,
         color: "#667781"
     },
     content: {

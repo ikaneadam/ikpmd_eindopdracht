@@ -20,7 +20,7 @@ const CreateChat: React.FunctionComponent<IStackScreenProps> = props =>{
     const [isModalVisible, setModalVisible] = useState(false);
 
     const errorText = "Username doesn't exist"
-    const notFoundStatusCode = 404 //refactor
+    const notFoundStatusCode = 404
     const [createChatError, setCreateChatError] = useState("");
     const isFocused = useIsFocused()
 

@@ -1,18 +1,19 @@
 import React, {useEffect, useRef, useState} from "react";
-
 import {IStackScreenProps} from "../Library/StackScreenProps";
-import {ChatModel} from "../models/ChatModel";
-import chatStyling from "../Styling/chatStyling";
-import {useIsFocused} from "@react-navigation/native";
-import ChatService from "../Services/ChatService";
-import {MessageModel} from "../models/MessageModel";
-import UserService from "../Services/UserService";
-import {UserModel} from "../models/UserModel";
-import formStyling from "../Styling/formStyling";
-import messageValidation from "../util/validation/messageValidation";
 import {FlatList, Image, SafeAreaView, Text, TextInput, TouchableOpacity, View} from "react-native";
-import messageStyling from "../Styling/messageStyling";
+
+import ChatService from "../Services/ChatService";
+import UserService from "../Services/UserService";
+
+import {ChatModel} from "../models/ChatModel";
+import {MessageModel} from "../models/MessageModel";
+
 import getLocalTime from "../util/localTime";
+import messageValidation from "../util/validation/messageValidation";
+
+import chatStyling from "../Styling/chatStyling";
+import messageStyling from "../Styling/messageStyling";
+import formStyling from "../Styling/formStyling";
 
 const Chat: React.FunctionComponent<IStackScreenProps> = props => {
     let {navigation, route, name} = props
