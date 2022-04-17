@@ -20,7 +20,29 @@ const chatStyling = StyleSheet.create({
         height: 50,
         borderRadius: 50,
         backgroundColor:"#ebebeb"
+    },
+    footer:{
+        backgroundColor: "white",
+        alignItems: "center",
+        alignSelf: 'stretch'
+    },
+    chatFooter:{
+        flexDirection: "row",
+        backgroundColor: "white",
+        alignSelf: 'stretch',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
+    addGroupButton:{
+        width: 50,
+        height: 50,
+    },
+    SendButton:{
+        alignSelf: "flex-end",
+        width: 40,
+        height: 40,
     }
+
 });
 
 export default chatStyling;

@@ -4,5 +4,5 @@ import {ParamListBase, RouteProp} from "@react-navigation/native";
 export interface IStackScreenProps {
     name: string;
     navigation: StackNavigationProp<any>;
-    route: RouteProp<ParamListBase, any>
+    route: RouteProp<ParamListBase, any> | any
 }

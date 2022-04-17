@@ -1,11 +1,11 @@
-import {Chat} from "./Chat";
+import {ChatModel} from "./ChatModel";
 
-export type Message = {
+export type MessageModel = {
   UUID: string
   content: string
   userName: string
   userNameReceiver: string
   isReceived: boolean
   TimeStamp: string
-  chat?: Chat;
+  chat?: ChatModel;
 }

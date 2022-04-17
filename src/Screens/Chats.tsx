@@ -1,21 +1,67 @@
-import React, {Component} from "react";
-import {FlatList, Image, Text, View} from "react-native";
+import React, {Component, useEffect, useState} from "react";
+import {
+    Button,
+    FlatList,
+    Image,
+    SafeAreaView,
+    ScrollView, SectionList,
+    Text,
+    TouchableHighlight,
+    TouchableWithoutFeedback,
+    View, VirtualizedList
+} from "react-native";
 import {IStackScreenProps} from "../Library/StackScreenProps";
-import {Chat} from "../models/Chat";
-import {User} from "../models/User";
-import {Message} from "../models/Message";
+import {ChatModel} from "../models/ChatModel";
 import chatStyling from "../Styling/chatStyling";
+import ChatService from "../Services/ChatService";
+import UserService from "../Services/UserService";
+import chat from "./Chat";
+import {useIsFocused} from "@react-navigation/native";
+import {HeaderBackButton} from "react-navigation-stack";
 
 const Chats: React.FunctionComponent<IStackScreenProps> = props =>{
+    const chatService = new ChatService()
+    const userService = new UserService()
     const {navigation, route, name} = props
+    const [chats, setChats] = useState<ChatModel[]>([]);
+    const isFocused = useIsFocused()
 
-    const message: Message = {UUID: "", content: "yoo man", userName:"",userNameReceiver: "", isReceived: true,TimeStamp: ""}
-    const test1: Chat = {UUID: "1", chatName: "yo", Messages: [message, message] }
-    const test2: Chat = {UUID: "2", chatName: "test", Messages: [message, message] }
-    const test3: Chat = {UUID: "3", chatName: "manr", Messages: [message, message] }
-    const chats: Chat[] = [test1,test2,test3]
 
-    function getLastMessage(chat: Chat): string{
+
+    useEffect(() => {
+        emitGetChats()
+        listenToChats()
+    } , [isFocused])
+
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <HeaderBackButton onPress={() => {
+                    userService.logOut()
+                    navigation.navigate("Login")}
+                }  />
+            ),
+        });
+    }, [navigation]);
+
+    async function listenToChats() {
+        chatService.socket.on(`receiveChats-${await userService.getUserFromMemory().then(res=>{return res})}`, (receivedChats: ChatModel[]) => {
+            setChats(receivedChats)
+        });
+    }
+
+    function emitGetChats(){
+        chatService.emitGetChats()
+    }
+
+    function navigateToCreateChat(){
+        navigation.navigate("CreateChat")
+    }
+    function navigateToChat(chat: ChatModel){
+        navigation.navigate("Chat", {chat: chat})
+    }
+
+    function getLastMessage(chat: ChatModel): string{
         const messages = chat.Messages
         if(messages.length === 0){
             return ""
@@ -23,30 +69,41 @@ const Chats: React.FunctionComponent<IStackScreenProps> = props =>{
         return messages[messages.length-1].content
     }
 
-    const Item = ({ item }: { item: Chat }) => (
-        <View style={chatStyling.chat}>
-            <Image style={chatStyling.chatPicture}
-                source={require('../../assets/chatPicture.jpg')}
-            />
-        <View>
-            <Text style={chatStyling.chatTitle}>{item.chatName}</Text>
-            <Text style={chatStyling.chatMessage}>{getLastMessage(item)}</Text>
-        </View>
-        </View>
+    const Item = ({ item }: { item: ChatModel }) => (
+        <TouchableWithoutFeedback onPress={() => navigateToChat(item)}>
+            <View style={chatStyling.chat}>
+                <Image style={chatStyling.chatPicture}
+                       source={require('../../assets/chatPicture.jpg')}
+                />
+                <View>
+                    <Text style={chatStyling.chatTitle}>{item.chatName}</Text>
+                    <Text style={chatStyling.chatMessage}>{getLastMessage(item)}</Text>
+                </View>
+            </View>
+        </TouchableWithoutFeedback>
     );
 
-    const renderItem = ({ item }: { item: Chat }) => (
+    const renderItem = ({ item }: { item: ChatModel }) => (
         <Item item={item}/>
     );
 
     return (
-        <View>
-            <FlatList
-                data={chats}
-                renderItem={renderItem}
-                keyExtractor={item => item.UUID}
-            />
-        </View>
+        <SafeAreaView style={{flex: 1}}>
+                <FlatList
+                    data={chats}
+                    renderItem={renderItem}
+                    keyExtractor={item => item.UUID}
+                />
+
+            <View style={chatStyling.footer}>
+                <TouchableHighlight onPress={navigateToCreateChat}>
+                    <Image style={chatStyling.addGroupButton}
+
+                       source={require('../../assets/add-icon.jpg')}
+                    />
+                </TouchableHighlight>
+            </View>
+        </SafeAreaView>
     );
 }
 

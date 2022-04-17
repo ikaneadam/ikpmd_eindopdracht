@@ -1,11 +1,11 @@
 import React, {Component, useEffect, useState} from "react";
-import {Text, TextInput, TouchableOpacity, View} from "react-native";
+import {Button, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {IStackScreenProps} from "../Library/StackScreenProps";
 import formStyling from "../Styling/formStyling";
 import {StatusBar} from "expo-status-bar";
 import UserService from "../Services/UserService";
-import isAccountValid from "../util/accountValidation";
-import {User} from "../models/User";
+import isAccountValid from "../util/validation/accountValidation";
+import {UserModel} from "../models/UserModel";
 import {useIsFocused} from "@react-navigation/native";
 
 const Register: React.FunctionComponent<IStackScreenProps> = props =>{
@@ -29,16 +29,20 @@ const Register: React.FunctionComponent<IStackScreenProps> = props =>{
     function register(){
         if(!isAccountValid(username).isValid){
             setRegisterError(isAccountValid(username).message)
+            console.log(registerError)
             return
         }
 
-        const user: User = {"username": username}
-        userService.registerRequest(user).then(()=>{
+        const user: UserModel = {"username": username}
+        userService.registerRequest(user).then((response)=>{
+            console.log(response)
             navigateTLoginPage()
-        },).catch(()=>{
+        },).catch((response)=>{
+            console.log(response)
             setRegisterError(errorText)
         })
     }
+
 
     return (
         <View style={formStyling.container}>
@@ -53,8 +57,8 @@ const Register: React.FunctionComponent<IStackScreenProps> = props =>{
                     onChangeText={(username) => setUsername(username)}
                 />
             </View>
-            <TouchableOpacity style={formStyling.Btn}>
-                <Text onPress={register} style={formStyling.BtnTxtColor}>Sign Up</Text>
+            <TouchableOpacity onPress={register} style={formStyling.Btn}>
+                <Text style={formStyling.BtnTxtColor}>Sign Up</Text>
             </TouchableOpacity>
             <Text style={formStyling.error}>{registerError}</Text>
             <TouchableOpacity>

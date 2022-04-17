@@ -4,8 +4,8 @@ import {IStackScreenProps} from "../Library/StackScreenProps";
 import { StatusBar } from "expo-status-bar";
 import formStyling from "../Styling/formStyling";
 import UserService from "../Services/UserService"
-import {User} from "../models/User";
-import isAccountValid from "../util/accountValidation";
+import {UserModel} from "../models/UserModel";
+import isAccountValid from "../util/validation/accountValidation";
 import { useIsFocused } from '@react-navigation/native'
 
 const Login: React.FunctionComponent<IStackScreenProps> = props =>{
@@ -14,7 +14,6 @@ const Login: React.FunctionComponent<IStackScreenProps> = props =>{
     const [username, setUsername] = useState("");
     const errorText = "Username doesn't exist"
     const [loginError, setLoginError] = useState("");
-
     const isFocused = useIsFocused()
 
     useEffect(() => {
@@ -36,15 +35,24 @@ const Login: React.FunctionComponent<IStackScreenProps> = props =>{
             return
         }
 
-        const user: User = {"username": username}
-        userService.loginRequest(user).then(()=>{
+        const user: UserModel = {"username": username}
+        userService.loginRequest(user).then( () => {
+            userService.saveUserInMemory(user.username)
             navigateToChatsPage()
         },).catch(()=>{
             setLoginError(errorText)
         })
     }
 
+    function logUserIn(){
+         userService.getUserFromMemory().then(res=>{
+             if(res != null){
+                 navigateToChatsPage()
+             }
+         })
+    }
 
+    logUserIn()
     return (
         <View style={formStyling.container}>
 
@@ -53,7 +61,6 @@ const Login: React.FunctionComponent<IStackScreenProps> = props =>{
             <View style={formStyling.inputView}>
                 <TextInput
                     style={formStyling.TextInput}
-                    placeholder="Naam..."
                     placeholderTextColor="#919191"
                     value={username}
                     onChangeText={(username) => setUsername(username)}

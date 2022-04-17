@@ -24,6 +24,20 @@ const formStyling = StyleSheet.create({
         borderStyle: undefined
     },
 
+    messageView: {
+        alignSelf: "flex-start",
+        backgroundColor: "#EEF5F3",
+        borderRadius: 30,
+        width: "85%",
+        height: 45,
+    },
+
+    MessageInput: {
+        height: 50,
+        padding: 10,
+        borderStyle: undefined,
+    },
+
     link: {
         color: "#09d6d3",
         height: 30,
@@ -48,6 +62,11 @@ const formStyling = StyleSheet.create({
     Title: {
         fontSize: 30,
         marginBottom: 30,
+    },
+
+    inputTitle:{
+        fontSize: 20,
+        marginBottom: 20
     },
 
     error:{
