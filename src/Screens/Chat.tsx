@@ -30,12 +30,7 @@ const Chat: React.FunctionComponent<IStackScreenProps> = props => {
     setChatName()
     listenToChats()
 
-    const isFocused = useIsFocused()
 
-    useEffect(() => {
-        setUser()
-        listenToChats()
-    }, [isFocused])
 
     async function setUser() {
         setUserName(await userService.getUserFromMemory().then(res => {
@@ -61,7 +56,7 @@ const Chat: React.FunctionComponent<IStackScreenProps> = props => {
         setMessage("")
     }
 
-    //refactor to local variable
+
      function isSentByLoggedInUser(username: string) {
         return username === userName
     }

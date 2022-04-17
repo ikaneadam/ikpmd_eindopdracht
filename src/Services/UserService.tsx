@@ -6,6 +6,7 @@ import AsyncStorageService from "../util/storage/AsyncStorageService";
 
 export default class UserService {
     public ApiURL = "http://10.0.2.2:5000";
+    //192.168.178.1  10.0.2.2
     private userKey: string = "user"
     private storageService = new AsyncStorageService();
 
@@ -19,7 +20,6 @@ export default class UserService {
     }
 
     public logOut(){
-        console.log("yo")
         this.deleteCurrentUserFromMemory()
     }
 
