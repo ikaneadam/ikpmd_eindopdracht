@@ -39,7 +39,7 @@ const Login: React.FunctionComponent<IStackScreenProps> = props =>{
         userService.loginRequest(user).then( () => {
             userService.saveUserInMemory(user.username)
             navigateToChatsPage()
-        },).catch(()=>{
+        },).catch((res)=>{
             setLoginError(errorText)
         })
     }

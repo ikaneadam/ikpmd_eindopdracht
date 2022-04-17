@@ -29,16 +29,13 @@ const Register: React.FunctionComponent<IStackScreenProps> = props =>{
     function register(){
         if(!isAccountValid(username).isValid){
             setRegisterError(isAccountValid(username).message)
-            console.log(registerError)
             return
         }
 
         const user: UserModel = {"username": username}
         userService.registerRequest(user).then((response)=>{
-            console.log(response)
             navigateTLoginPage()
         },).catch((response)=>{
-            console.log(response)
             setRegisterError(errorText)
         })
     }

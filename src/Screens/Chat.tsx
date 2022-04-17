@@ -23,14 +23,14 @@ const Chat: React.FunctionComponent<IStackScreenProps> = props => {
     const [chat, setChat] = useState<ChatModel>(route.params.chat);
     const [userName, setUserName] = useState("");
     const [messages, setMessages] = useState<MessageModel[]>(route.params.chat.Messages);
-    const [users, setUsers] = useState<UserModel[]>(route.params.chat.users);
     const [message, setMessage] = useState("");
     const flatListRef = useRef<FlatList>(null);
     setUser()
     setChatName()
-    listenToChats()
 
-
+    useEffect(()=>{
+        listenToChat()
+    }, []);
 
     async function setUser() {
         setUserName(await userService.getUserFromMemory().then(res => {
@@ -41,9 +41,9 @@ const Chat: React.FunctionComponent<IStackScreenProps> = props => {
         }))
     }
 
-    function listenToChats() {
+    function listenToChat() {
         chatService.socket.on(`receiveMessage-${chat.UUID}`, (receivedMessage: MessageModel) => {
-            setMessages([...messages, receivedMessage])
+            setMessages(messages =>[...messages, receivedMessage])
         });
     }
 
@@ -88,11 +88,11 @@ const Chat: React.FunctionComponent<IStackScreenProps> = props => {
         <SafeAreaView style={{flex: 1}}>
             <FlatList
                 ref={flatListRef}
-                onContentSizeChange={() => flatListRef.current?.scrollToEnd({animated: false})}
-                onLayout={() => flatListRef.current?.scrollToEnd({animated: false})}
+                onContentSizeChange={() => flatListRef.current?.scrollToEnd({animated: true})}
+                onLayout={() => flatListRef.current?.scrollToEnd({animated: true})}
                 data={messages}
-                renderItem={renderItem}
                 keyExtractor={item => item.UUID}
+                renderItem={renderItem}
             />
             <View style={[chatStyling.chatFooter, {padding: 10}]}>
                 <View style={formStyling.messageView}>

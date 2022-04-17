@@ -1,21 +1,18 @@
-import React, {Component, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
-    Button,
     FlatList,
     Image,
     SafeAreaView,
-    ScrollView, SectionList,
     Text,
     TouchableHighlight,
     TouchableWithoutFeedback,
-    View, VirtualizedList
+    View
 } from "react-native";
 import {IStackScreenProps} from "../Library/StackScreenProps";
 import {ChatModel} from "../models/ChatModel";
 import chatStyling from "../Styling/chatStyling";
 import ChatService from "../Services/ChatService";
 import UserService from "../Services/UserService";
-import chat from "./Chat";
 import {useIsFocused} from "@react-navigation/native";
 import {HeaderBackButton} from "react-navigation-stack";
 
@@ -26,11 +23,10 @@ const Chats: React.FunctionComponent<IStackScreenProps> = props =>{
     const [chats, setChats] = useState<ChatModel[]>([]);
     const isFocused = useIsFocused()
 
-
-
     useEffect(() => {
-        emitGetChats()
         listenToChats()
+        emitGetChats()
+        listenToCreatedChats()
     } , [isFocused])
 
     React.useLayoutEffect(() => {
@@ -50,6 +46,12 @@ const Chats: React.FunctionComponent<IStackScreenProps> = props =>{
         });
     }
 
+    async function listenToCreatedChats() {
+        chatService.socket.on(`receiveChat-${await userService.getUserFromMemory().then(res=>{return res})}`, (receivedChat: ChatModel) => {
+            emitGetChats()
+        });
+    }
+
     function emitGetChats(){
         chatService.emitGetChats()
     }
@@ -63,6 +65,10 @@ const Chats: React.FunctionComponent<IStackScreenProps> = props =>{
 
     function getLastMessage(chat: ChatModel): string{
         const messages = chat.Messages
+        if(messages === undefined){
+            return ""
+        }
+
         if(messages.length === 0){
             return ""
         }

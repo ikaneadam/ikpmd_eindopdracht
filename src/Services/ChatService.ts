@@ -1,6 +1,5 @@
-import io from "socket.io-client";
+import { io } from "socket.io-client";
 import UserService from "./UserService";
-import {ChatModel} from "../models/ChatModel";
 import {CreateChatRequest} from "../models/requests/CreateChatRequest";
 
 

@@ -1,5 +1,5 @@
-import React, {Component, useEffect, useState} from "react";
-import {Alert, Button, Pressable, Text, TextInput, TouchableOpacity, View} from "react-native";
+import React, {useEffect, useState} from "react";
+import {Button, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {IStackScreenProps} from "../Library/StackScreenProps";
 import formStyling from "../Styling/formStyling";
 import {StatusBar} from "expo-status-bar";

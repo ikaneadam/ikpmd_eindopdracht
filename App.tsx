@@ -1,9 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
 import 'react-native-gesture-handler';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
-import {Component, useEffect} from "react";
-import { createAppContainer } from 'react-navigation';
-import {GestureHandlerRootView} from "react-native-gesture-handler";
+import React, {useEffect} from "react";
 import Login from "./src/Screens/Login";
 import { createStackNavigator } from '@react-navigation/stack';
 import {IStackScreenProps} from "./src/Library/StackScreenProps";

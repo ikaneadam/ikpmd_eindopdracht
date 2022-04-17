@@ -2,22 +2,30 @@ import {StyleSheet} from "react-native";
 
 const modalStyling = StyleSheet.create({
     receivedMessage:{
+        marginBottom: 2,
+        marginLeft: 2,
         alignSelf: 'flex-start',
-        borderRadius: 50,
-        padding: 10
+        maxWidth: '90%',
+        borderRadius: 30,
+        padding: 15
     },
     sentMessage: {
+        marginRight: 2,
+        marginBottom: 2,
         backgroundColor: '#D9FDD3',
         alignSelf: 'flex-end',
-        borderRadius: 50,
-        padding: 10
+        maxWidth: '90%',
+        borderRadius: 30,
+        padding: 15
     },
     date: {
+        position: 'absolute',
         alignSelf: "flex-end",
-        paddingLeft: 10,
+        paddingLeft: 20,
         color: "#667781"
     },
     content: {
+        paddingBottom: 5,
         fontSize: 15
     }
 

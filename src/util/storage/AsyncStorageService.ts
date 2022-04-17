@@ -1,5 +1,4 @@
 import {AsyncStorage} from "react-native";
-import {UserModel} from "../../models/UserModel";
 
 
 export default class AsyncStorageService{
